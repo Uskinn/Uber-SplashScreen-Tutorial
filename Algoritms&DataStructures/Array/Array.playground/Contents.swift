@@ -51,47 +51,47 @@ func findShortestSubArrayInArray(inputArray: [Int]) -> [Int] {
         return []
     }
     var isFiveFound: Bool = false
-    var isSevenFound: Bool = false
     
     var resultArray: [Int] = []
     
-    var elementFive: Int = 5
-    var elementSeven: Int = 7
+    let elementFive: Int = 5
+    let elementSeven: Int = 7
     
     var fiveIndex: Int = -1
-    var sevenIndex: Int = -1
+    var sevenIndex: Int = inputArray.count
+    var tempFive: Int = -1
     
     
     for (index, element) in inputArray.enumerated() {
         if element == elementFive {
-            fiveIndex = index
+            isFiveFound = true
+            tempFive = index
+        
             print("five: \(fiveIndex)")
-            resultArray.append(element)
 
         }
         
-        if element == elementSeven {
-            sevenIndex = index
-            print("seven: \(sevenIndex)")
-            resultArray.append(element)
-
+        if element == elementSeven && isFiveFound == true {
+            isFiveFound = false
+            if sevenIndex - fiveIndex > index - tempFive {
+                fiveIndex = tempFive
+                sevenIndex = index
+            }
         }
-        
-        
-//        if fiveIndex < sevenIndex {
-//            for i in fiveIndex...sevenIndex {
-//                if fiveIndex[i] < fiveIndex[i + 1] {
-//                    resultArray.append(myArray[i])
-//
-//                }
-//                
-//            }
-//        }
-        
     }
+    
+    if fiveIndex >= 0 && sevenIndex < inputArray.count {
+        for i in fiveIndex...sevenIndex {
+            resultArray.append(inputArray[i])
+            
+        }
+    }
+    
+    
+    
     return resultArray
+    
 }
-
 let myArray = [4,5,6,5,7,45,8,7,4,90,5]
 
 print(findShortestSubArrayInArray(inputArray: myArray))
